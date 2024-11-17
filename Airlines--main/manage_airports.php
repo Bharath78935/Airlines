@@ -65,7 +65,7 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Airports</title>
-    <link rel="stylesheet" href="style2.css"> <!-- Link to a CSS file for styling -->
+    <link rel="stylesheet" href="style2.css"> <!-- Link to updated CSS -->
     <script>
         function openUpdateModal(airportCode, airportName, city, country) {
             document.getElementById('modal-airport-code').value = airportCode;
@@ -81,12 +81,13 @@ $result = $conn->query($sql);
     </script>
 </head>
 <body>
+    <!-- Home Button -->
+    <div>
+        <a href="index.php">
+            <img class="home" src="images/home.jpg" alt="home">
+        </a>
+    </div>
 
-        <!-- Home Button -->
-        <div>
-            <a href="index.php" ><img  class = "home" src = "images/home.jpg" alt = "home">
-            </a>
-        </div>
     <h1>Manage Airports</h1>
 
     <!-- Table to display airports -->
@@ -105,44 +106,52 @@ $result = $conn->query($sql);
             <td><?php echo $row['city']; ?></td>
             <td><?php echo $row['country']; ?></td>
             <td>
-                <form class = "del" action="manage_airports.php" method="post" style="display:inline;">
+                <form class="del" action="manage_airports.php" method="post" style="display:inline;">
                     <input type="hidden" name="airport_id" value="<?php echo $row['airport_code']; ?>">
-                    <button type="submit" name="delete_airport">Delete</button>
+                    <button class="delete" type="submit" name="delete_airport">Delete</button>
                 </form>
-                <button class = "edit" onclick="openUpdateModal('<?php echo $row['airport_code']; ?>', '<?php echo $row['airport_name']; ?>', '<?php echo $row['city']; ?>', '<?php echo $row['country']; ?>')">Update</button>
+                <button class="edit" onclick="openUpdateModal('<?php echo $row['airport_code']; ?>', '<?php echo $row['airport_name']; ?>', '<?php echo $row['city']; ?>', '<?php echo $row['country']; ?>')">Edit</button>
             </td>
         </tr>
         <?php endwhile; ?>
     </table>
 
     <!-- Form for adding a new airport -->
-    <h1>Add New Airport</h1>
-    <form action="manage_airports.php" method="post">
-        <label for="airport_code">Airport Code:</label>
-        <input type="text" name="airport_code" id="airport_code" required>
-        <label for="airport_name">Airport Name:</label>
-        <input type="text" name="airport_name" id="airport_name" required>
-        <label for="city">City:</label>
-        <input type="text" name="city" id="city" required>
-        <label for="country">Country:</label>
-        <input type="text" name="country" id="country" required>
-        <button type="submit" name="add_airport">Add Airport</button>
-    </form>
+    <h2>Add New Airport</h2>
+    <fieldset>
+        <legend>Add Airport Details</legend>
+        <form action="manage_airports.php" method="post">
+            <label for="airport_code">Airport Code:</label>
+            <input type="text" name="airport_code" id="airport_code" required>
+            <label for="airport_name">Airport Name:</label>
+            <input type="text" name="airport_name" id="airport_name" required>
+            <label for="city">City:</label>
+            <input type="text" name="city" id="city" required>
+            <label for="country">Country:</label>
+            <input type="text" name="country" id="country" required>
+            <button type="submit" name="add_airport">Add Airport</button>
+        </form>
+    </fieldset>
 
     <!-- Modal for updating airport -->
-    <div id="updateModal" style="display:none; position:fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid black;">
-        <h2>Update Airport</h2>
-        <form action="manage_airports.php" method="post">
-            <input type="hidden" name="airport_id" id="modal-airport-code">
-            <label for="modal-airport-name">Airport Name:</label>
-            <input type="text" name="airport_name" id="modal-airport-name" required>
-            <label for="modal-city">City:</label>
-            <input type="text" name="city" id="modal-city" required>
-            <label for="modal-country">Country:</label>
-            <input type="text" name="country" id="modal-country" required>
-            <button type="submit" name="update_airport">Update Airport</button>
-            <button type="button" onclick="closeUpdateModal()">Cancel</button>
-        </form>
+    <div id="updateModal" style="display:none;">
+        <fieldset>
+            <legend>Update Airport Details</legend>
+            <form action="manage_airports.php" method="post">
+                <input type="hidden" name="airport_id" id="modal-airport-code">
+                <label for="modal-airport-name">Airport Name:</label>
+                <input type="text" name="airport_name" id="modal-airport-name" required>
+                <label for="modal-city">City:</label>
+                <input type="text" name="city" id="modal-city" required>
+                <label for="modal-country">Country:</label>
+                <input type="text" name="country" id="modal-country" required>
+                <button type="submit" name="update_airport">Update Airport</button>
+                <button type="button" onclick="closeUpdateModal()">Cancel</button>
+            </form>
+        </fieldset>
     </div>
+
+    <!-- Success/Error Message -->
+    <div id="message" class="message"></div> <!-- Message element for status -->
 </body>
 </html>
